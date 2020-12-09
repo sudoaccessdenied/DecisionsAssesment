@@ -1,0 +1,50 @@
+
+<div class="row">
+    <div class="card col">
+        <div class="card-header">
+            Add Product
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="onSubmit()"  [formGroup]="form">
+                <div *ngFor="let item of data" >
+                    <div [formGroup]="form" class="form-group">
+                        <label [attr.for]="item.caption">{{item.caption}}</label>
+                        <div [ngSwitch]="item.type">
+                            <input *ngSwitchCase="'text'" [formControlName]="item.caption" class="form-control"
+                            [placeholder]="item.caption"   [id]="item.caption" type ="text">
+                            <input *ngSwitchCase="'int'" [formControlName]="item.caption" class="form-control"
+                            [id]="item.caption" type="number">
+                            
+                            <input *ngSwitchCase="'bool'" [formControlName]="item.caption" class="form-check"   
+                            [id]="item.caption" type="checkbox">
+
+                            <select [id]="item.caption" *ngSwitchCase="'select'" class="form-control" 
+                                    [formControlName]="item.caption" >
+                                   <option *ngFor="let option of item.options" [value]="option.key">{{option.value}}</option>
+                            </select>
+
+
+                        </div>
+                        
+                        <small   class="text-danger"
+                        *ngIf="!this.form.controls[item.caption].valid && this.form.controls[item.caption].touched"  >
+                        {{item.validationMessage}}</small>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+            </form>
+    </div>
+</div>
+
+<div class ="card col " *ngIf="submittedData">
+    <div class="card-header">
+        Submitted Data
+    </div>
+    <div class="card-body">
+        <div class="card-text">
+            {{submittedData}}
+        </div>   
+    </div>
+</div>
+</div>
